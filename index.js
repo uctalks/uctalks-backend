@@ -25,23 +25,35 @@ app.use(function (req, res, next) {
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
-	db.collection('topics').find().toArray((err, data) => {
-		if (err) {
-			throw err;
-		}
-
-		res.json(data);
-	});
+	db.collection('topics').find().toArray()
+		.then(data => res.json(data))
+		.catch(error => res.status(500).send('db error'));
 });
 
-dbClient.connect(dbUrl, (error, database) => {
-	if (error) {
-		throw err
+app.post('/', (req, res) => {
+	const name = req.body.name;
+
+	if (typeof name !== 'string') {
+		return res.status(400).send('Invalid request');
 	}
 
-	db = database;
+	const newTopic = { name };
 
-	app.listen(app.get('port'), function () {
-		console.log('Listening on port ' + app.get('port'));
-	});
+	// @TODO prevent duplicates
+
+	db.collection('topics').insertOne(newTopic)
+		.then(topic => res.send(topic.insertedId))
+		.catch(error => res.status(500).send('db error'));
 });
+
+dbClient.connect(dbUrl)
+	.then(database => {
+		db = database;
+
+		app.listen(app.get('port'), function () {
+			console.log('Listening on port ' + app.get('port'));
+		});
+	})
+	.catch(error => {
+		throw error
+	});
