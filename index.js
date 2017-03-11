@@ -3,12 +3,7 @@ const
 	bodyParser = require('body-parser'),
 	dbClient = require('mongodb').MongoClient,
 	app = express(),
-
-	// @TODO refactor authorisation
-	user = 'uctalks',
-	password = 'uctalks',
-
-	dbUrl = `mongodb://${user}:${password}@ds157799.mlab.com:57799/heroku_x17nwlbv`;
+	dbUrl = `mongodb://uctalks:uctalks@ds157799.mlab.com:57799/heroku_x17nwlbv`;
 
 let db;
 
@@ -39,11 +34,15 @@ app.post('/', (req, res) => {
 
 	const newTopic = { name };
 
-	// @TODO prevent duplicates
-
-	db.collection('topics').insertOne(newTopic)
-		.then(topic => res.send(topic.insertedId))
-		.catch(error => res.status(500).send('db error'));
+	db.collection('topics').findOne(newTopic).then(duplicate => {
+		if (duplicate) {
+			res.status(500).send('Topic with this name already exists');
+		} else {
+			db.collection('topics').insertOne(newTopic)
+				.then(topic => res.send(topic.insertedId))
+				.catch(error => res.status(500).send('db error'));
+		}
+	});
 });
 
 dbClient.connect(dbUrl)
