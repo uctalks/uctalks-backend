@@ -15,6 +15,7 @@
 		"mongodb": "^2.2.24"
 	},
 	"devDependencies": {
+		"eslint": "^3.19.0",
 		"nodemon": "^1.11.0"
 	}
 }
