@@ -4,7 +4,7 @@ const
 	dbClient = require('mongodb').MongoClient,
 	ObjectID = require('mongodb').ObjectID,
 	app = express(),
-	dbUrl = 'mongodb://uctalks:uctalks@ds157799.mlab.com:57799/heroku_x17nwlbv'
+  dbUrl = 'mongodb://uctalks:uctalks@ds157799.mlab.com:57799/heroku_x17nwlbv'
 
 let db
 
