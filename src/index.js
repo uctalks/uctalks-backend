@@ -4,24 +4,23 @@ import bodyParser from 'body-parser'
 import topics from './routes/topics'
 import { connect } from './db/db'
 
-const app = express()
+const 
+	app = express(), // create server
+	port = process.env.PORT || 5000 // set port depending on the environment
 
-app.set('port', (process.env.PORT || 5000))
-
+// prettify the response
 app.set('json spaces', 4)
 
+// allow CORS
 app.use(cors())
 
+// parse json during request/response
 app.use(bodyParser.json())
 
+// '/topics' route
 app.use('/topics', topics)
 
+// connect to the database
 connect()
-	.then(() => {
-		app.listen(app.get('port'), function () {
-			console.log('Listening on port ' + app.get('port'))
-		})
-	})
-	.catch(error => {
-		throw error
-	})
+	.then(() => app.listen(port, () => global.console.log(`Listening on port ${port}`)))
+	.catch(() => global.console.error('Not able to connect to the database'))
