@@ -1,50 +1,41 @@
-import MongoClient from 'mongodb'
-import ObjectID from 'mongodb'
+import mongoose from 'mongoose'
+import Topic from './models/topic'
 
 const dbUrl = 'mongodb://uctalks:uctalks@ds157799.mlab.com:57799/heroku_x17nwlbv'
 
-let topics // topics collection in the database
+// use native promises
+mongoose.Promise = global.Promise
 
 
 /**
  * @returns {Promise} to connect to the database
  */
-export function connect() {
-	return MongoClient.connect(dbUrl).then(db => topics = db.collection('topics'))
-}
+export const connect = () => mongoose.connect(dbUrl)
 
 
 /**
  * @returns {Promise} to get all topics
  */
-export function getTopics() {
-	return topics.find().toArray()
-}
+export const getTopics = () => Topic.find()
 
 
 /**
  * @param {String} name to find in the database
  * @returns {Promise} to get a topic by name
  */
-export function getTopicByName(name) {
-	return topics.findOne({name})
-}
+export const getTopicByName = name => Topic.findOne({name})
 
 
 /**
- * @param {Object} newTopic to insert to the database
+ * @param {Object} newTopicProps props of the new topic to insert to the database
  * @returns {Promise} to insert newTopic
  */
-export function insertTopic(newTopic) {
-	return topics.insertOne(newTopic)
-}
+export const insertTopic = newTopicProps => new Topic(newTopicProps).save()
 
 
 /**
  * @param {String} id of the topic to be updated
- * @param {Object} updatedProps to be
- * @returns {Promise} to insert newTopic
+ * @param {Object} updatedProps to be inserted
+ * @returns {Promise} to update a topic
  */
-export function updateTopicById(id, updatedProps) {
-	return topics.update({ _id: ObjectID(id) }, updatedProps)
-}
+export const updateTopicById = (id, updatedProps) => Topic.findByIdAndUpdate(id, updatedProps)

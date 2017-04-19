@@ -28,21 +28,15 @@ app.post('/', (req, res) => {
 
 	const newTopic = { name }
 
-	db.getTopicByName(name).then(duplicate => {
-		if (duplicate) {
-			res.status(500).send('Topic with this name already exists')
-		} else {
-			db.insertTopic(newTopic)
-				.then(topic => res.send(topic.insertedId))
-				.catch(() => res.status(500).send('db error'))
-		}
-	})
+	db.insertTopic(newTopic)
+		.then(topic => res.send(topic))
+		.catch(err => res.status(500).send(err))
 })
 
 app.put('/update-topics/:id/', (req, res) => {
-	const updatedProps = req.body.updatedTopic
+	const updatedProps = req.body.updatedProps
 
-	if (updatedProps instanceof Object && !(updatedProps instanceof Array)) {
+	if (!(updatedProps instanceof Object) || updatedProps instanceof Array) {
 		res.status(500).send('Incorrect request (\'updatedTopic\' is not an object')
 	}
 
