@@ -1,14 +1,9 @@
 import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
-import MongoClient from 'mongodb'
-import ObjectID from 'mongodb'
+import * as db from './db/db'
 
-const 
-	app = express(),
-	dbUrl = 'mongodb://uctalks:uctalks@ds157799.mlab.com:57799/heroku_x17nwlbv'
-
-let db
+const app = express()
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -19,7 +14,7 @@ app.use(cors())
 app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
-	db.collection('topics').find().toArray()
+	db.getTopics()
 		.then(data => res.json(data))
 		.catch(() => res.status(500).send('db error'))
 })
@@ -33,11 +28,11 @@ app.post('/', (req, res) => {
 
 	const newTopic = { name }
 
-	db.collection('topics').findOne(newTopic).then(duplicate => {
+	db.getTopicByName(name).then(duplicate => {
 		if (duplicate) {
 			res.status(500).send('Topic with this name already exists')
 		} else {
-			db.collection('topics').insertOne(newTopic)
+			db.insertTopic(newTopic)
 				.then(topic => res.send(topic.insertedId))
 				.catch(() => res.status(500).send('db error'))
 		}
@@ -45,21 +40,19 @@ app.post('/', (req, res) => {
 })
 
 app.put('/update-topics/:id/', (req, res) => {
-	const updatedTopic = req.body.updatedTopic
+	const updatedProps = req.body.updatedTopic
 
-	if (updatedTopic instanceof Object && !(updatedTopic instanceof Array)) {
+	if (updatedProps instanceof Object && !(updatedProps instanceof Array)) {
 		res.status(500).send('Incorrect request (\'updatedTopic\' is not an object')
 	}
 
-	db.collection('topics').update({ _id: ObjectID(req.params.id) }, updatedTopic)
+	db.updateTopicById(req.params.id, updatedProps)
 		.then(() => res.sendStatus(200))
 		.catch(error => res.status(500).send({ errorMessage: 'Database error', error }))
 })
 
-MongoClient.connect(dbUrl)
-	.then(database => {
-		db = database
-
+db.connect()
+	.then(() => {
 		app.listen(app.get('port'), function () {
 			console.log('Listening on port ' + app.get('port'))
 		})
