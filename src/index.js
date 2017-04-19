@@ -1,22 +1,20 @@
-const
-	express = require('express'),
-	bodyParser = require('body-parser'),
-	dbClient = require('mongodb').MongoClient,
-	ObjectID = require('mongodb').ObjectID,
+import express from 'express'
+import cors from 'cors'
+import bodyParser from 'body-parser'
+import MongoClient from 'mongodb'
+import ObjectID from 'mongodb'
+
+const 
 	app = express(),
 	dbUrl = 'mongodb://uctalks:uctalks@ds157799.mlab.com:57799/heroku_x17nwlbv'
 
 let db
 
 app.set('port', (process.env.PORT || 5000))
+
 app.set('json spaces', 4)
 
-app.use(function (req, res, next) {
-	res.header('Access-Control-Allow-Origin', '*')
-	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-	res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
-	next()
-})
+app.use(cors())
 
 app.use(bodyParser.json())
 
@@ -46,7 +44,7 @@ app.post('/', (req, res) => {
 	})
 })
 
-app.put('/update-topic/:id/', (req, res) => {
+app.put('/update-topics/:id/', (req, res) => {
 	const updatedTopic = req.body.updatedTopic
 
 	if (updatedTopic instanceof Object && !(updatedTopic instanceof Array)) {
@@ -58,7 +56,7 @@ app.put('/update-topic/:id/', (req, res) => {
 		.catch(error => res.status(500).send({ errorMessage: 'Database error', error }))
 })
 
-dbClient.connect(dbUrl)
+MongoClient.connect(dbUrl)
 	.then(database => {
 		db = database
 
