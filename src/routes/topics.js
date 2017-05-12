@@ -22,4 +22,9 @@ topics.put('/:id', (req, res) => db.updateTopicById(req.params.id, req.body.upda
 	.catch(err => res.status(500).send(err)))
 
 
+// deletes a topic specified by id
+topics.delete('/:id', (req, res) => db.deleteTopicById(req.params.id)
+	.then(data => res.send(data))
+	.catch(err => res.status(500).send(err)))
+
 export default topics

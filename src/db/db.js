@@ -39,3 +39,10 @@ export const insertTopic = newTopicProps => new Topic(newTopicProps).save()
  * @returns {Promise} to update a topic
  */
 export const updateTopicById = (id, updatedProps) => Topic.findByIdAndUpdate(id, updatedProps)
+
+
+/**
+ * @param {String} id of the topic to be deleted
+ * @returns {Promise} to delete a topic
+ */
+export const deleteTopicById = id => Topic.findByIdAndRemove(id)
