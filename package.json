@@ -1,20 +1,27 @@
 {
 	"name": "uctalks-backend",
 	"version": "1.0.0",
-	"main": "index.js",
+	"module": "dist/index.js",
 	"repository": "https://github.com/uctalks/uctalks-backend.git",
 	"author": "Yevhen Stativka <stativkaea@gmail.com>",
 	"license": "MIT",
 	"scripts": {
-		"start": "node index.js",
-		"dev": "nodemon index.js"
+		"start": "npm run build && node dist/index.js",
+		"build": "rimraf dist && babel src -d dist",
+		"dev": "nodemon src/index.js --exec babel-node"
 	},
 	"dependencies": {
+		"babel-cli": "^6.24.1",
+		"babel-preset-env": "^1.4.0",
 		"body-parser": "^1.16.1",
+		"cors": "^2.8.3",
 		"express": "^4.14.1",
-		"mongodb": "^2.2.24"
+		"mongoose": "^4.9.5",
+		"rimraf": "^2.6.1"
 	},
 	"devDependencies": {
+		"babel-eslint": "^7.2.3",
+		"eslint": "^3.19.0",
 		"nodemon": "^1.11.0"
 	}
 }
