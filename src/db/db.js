@@ -38,7 +38,7 @@ export const insertTopic = newTopicProps => new Topic(newTopicProps).save()
  * @param {Object} updatedProps to be inserted
  * @returns {Promise} to update a topic
  */
-export const updateTopicById = (id, updatedProps) => Topic.findByIdAndUpdate(id, updatedProps)
+export const updateTopicById = (id, updatedProps) => Topic.findByIdAndUpdate(id, updatedProps, { new: true })
 
 
 /**
