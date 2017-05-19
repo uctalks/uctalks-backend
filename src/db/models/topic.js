@@ -7,7 +7,7 @@ const TopicSchema = mongoose.Schema(
 			required: true,
 			unique: true
 		},
-		points: {
+		likes: {
 			type: Number,
 			default: 0
 		}
