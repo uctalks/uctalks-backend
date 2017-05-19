@@ -35,10 +35,19 @@ export const insertTopic = newTopicProps => new Topic(newTopicProps).save()
 
 /**
  * @param {String} id of the topic to be updated
- * @param {Object} updatedProps to be inserted
+ * @param {Object} updatedTopicProps to be inserted
  * @returns {Promise} to update a topic
  */
-export const updateTopicById = (id, updatedProps) => Topic.findByIdAndUpdate(id, updatedProps, { new: true })
+export const updateTopicById = (id, updatedTopicProps) => Topic.findByIdAndUpdate(id, updatedTopicProps, { new: true })
+
+
+/**
+ * @param {String} id of the topic to be updated
+ * @param {String} direction to be inserted
+ * @returns {Promise} to update a topic's points
+ */
+export const updateTopicVotesById = (id, direction) => Topic
+	.findByIdAndUpdate(id, { $inc: { points: direction === 'up' ? 1 : -1 } }, { new: true })
 
 
 /**
