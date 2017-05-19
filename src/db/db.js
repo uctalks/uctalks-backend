@@ -44,10 +44,10 @@ export const updateTopicById = (id, updatedTopicProps) => Topic.findByIdAndUpdat
 /**
  * @param {String} id of the topic to be updated
  * @param {String} direction to be inserted
- * @returns {Promise} to update a topic's points
+ * @returns {Promise} to update a topic's likes
  */
-export const updateTopicVotesById = (id, direction) => Topic
-	.findByIdAndUpdate(id, { $inc: { points: direction === 'up' ? 1 : -1 } }, { new: true })
+export const updateTopicLikesById = (id, direction) => Topic
+	.findByIdAndUpdate(id, { $inc: { likes: direction === 'like' ? 1 : -1 } }, { new: true })
 
 
 /**
