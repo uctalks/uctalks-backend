@@ -10,10 +10,14 @@ const TopicSchema = mongoose.Schema(
 		likes: {
 			type: Number,
 			default: 0
+		},
+		presentationDate: {
+			type: Date,
 		}
 	},
 	{
-		strict: 'throw' // throw error, if field is not specified in the schema
+		strict: 'throw', // throw error, if field is not specified in the schema
+		timestamps: { createdAt: 'creationDate', updatedAt: 'updateDate' },
 	}
 )
 
