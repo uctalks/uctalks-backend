@@ -34,13 +34,39 @@ topics.put('/:id', (req, res) => {
 
 // updates likes of a topic specified by id
 topics.put('/:id/likes', (req, res) => {
-	if (req.body.direction !== 'like' && req.body.direction !== 'down') {
-		return res.status(400).send('Not \'up\' or \'down\' parameter')
+	// check direction parameter
+	if (req.body.direction !== 'like' && req.body.direction !== 'dislike') {
+		return res.status(400).send('Not \'like\' or \'dislike\' parameter')
 	}
 
-	db.updateTopicLikesById(req.params.id, req.body.direction)
-		.then(topic => res.send(topic))
-		.catch(err => res.status(500).send(err))
+	// check userId parameter
+	if (typeof req.body.userId !== 'string') {
+		return res.status(400).send('\'userId\' should be a string')
+	}
+
+	// query topic by provided id in the URL
+	db.getTopicById(req.params.id).then(topic => {
+		// if topic is not found by id, notify the client
+		if (!topic) {
+			return res.status(400).send('Topic was not found')
+		}
+
+		// if topic is found by id
+		if (topic.usersLikedIds.includes(req.body.userId)) {
+			// prevent second like
+			if (req.body.direction === 'like') {
+				return res.status(400).send('User already liked this topic')
+			}
+		} else if (req.body.direction === 'dislike') {
+			// prevent dislike of the topic, which was not liked by the user
+			return res.status(400).send('User did not liked this topic previously')
+		}
+
+		// query update of the topic's likes
+		db.updateTopicLikes(topic, req.body.direction, req.body.userId)
+			.then(_topic => res.send(_topic))
+			.catch(err => res.status(500).send(err))
+	})
 })
 
 
