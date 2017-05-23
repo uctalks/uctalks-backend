@@ -5,15 +5,19 @@ const TopicSchema = mongoose.Schema(
 		name: {
 			type: String,
 			required: true,
-			unique: true
+			unique: true,
 		},
 		likes: {
 			type: Number,
-			default: 0
+			default: 0,
 		},
 		presentationDate: {
 			type: Date,
-		}
+		},
+		usersLikedIds: [{
+			type: String,
+			required: true,
+		}],
 	},
 	{
 		strict: 'throw', // throw error, if field is not specified in the schema

@@ -20,10 +20,17 @@ export const getTopics = () => Topic.find()
 
 
 /**
+ * @param {String} id to find in the database
+ * @returns {Promise} to get a topic by id
+ */
+export const getTopicById = id => Topic.findById(id)
+
+
+/**
  * @param {String} name to find in the database
  * @returns {Promise} to get a topic by name
  */
-export const getTopicByName = name => Topic.findOne({name})
+export const getTopicByName = name => Topic.findOne({ name })
 
 
 /**
@@ -42,12 +49,27 @@ export const updateTopicById = (id, updatedTopicProps) => Topic.findByIdAndUpdat
 
 
 /**
- * @param {String} id of the topic to be updated
+ * @param {Object} topic document from the database to be updated
  * @param {String} direction to be inserted
+ * @param {String} userId to be added to array of users, which liked the topic
  * @returns {Promise} to update a topic's likes
  */
-export const updateTopicLikesById = (id, direction) => Topic
-	.findByIdAndUpdate(id, { $inc: { likes: direction === 'like' ? 1 : -1 } }, { new: true })
+export const updateTopicLikes = (topic, direction, userId) => {
+	switch (direction) {
+
+	case 'like':
+		topic.likes++
+		topic.usersLikedIds.push(userId)
+		break
+
+	case 'dislike':
+		topic.likes--
+		topic.usersLikedIds = topic.usersLikedIds.filter(userLikedId => userLikedId !== userId)
+		break
+	}
+
+	return topic.save()
+}
 
 
 /**
