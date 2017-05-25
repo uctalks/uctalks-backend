@@ -1,5 +1,5 @@
 import Router from 'express'
-import * as db from '../db/db'
+import * as db from '../db/utils/topics.db'
 
 const topics = Router() // create a '/topics' route
 
