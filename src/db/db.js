@@ -50,22 +50,17 @@ export const updateTopicById = (id, updatedTopicProps) => Topic.findByIdAndUpdat
 
 /**
  * @param {Object} topic document from the database to be updated
- * @param {String} direction to be inserted
+ * @param {Boolean} liked to be inserted
  * @param {String} userId to be added to array of users, which liked the topic
  * @returns {Promise} to update a topic's likes
  */
-export const updateTopicLikes = (topic, direction, userId) => {
-	switch (direction) {
-
-	case 'like':
+export const updateTopicLikes = (topic, liked, userId) => {
+	if (liked) {
 		topic.likes++
 		topic.usersLikedIds.push(userId)
-		break
-
-	case 'dislike':
+	} else {
 		topic.likes--
 		topic.usersLikedIds = topic.usersLikedIds.filter(userLikedId => userLikedId !== userId)
-		break
 	}
 
 	return topic.save()
