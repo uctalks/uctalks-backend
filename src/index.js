@@ -2,7 +2,8 @@ import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import topics from './routes/topics'
-import { connect } from './db/db'
+import users from './routes/users'
+import { connect } from './db/utils/common.db'
 
 const 
 	app = express(), // create server
@@ -19,6 +20,9 @@ app.use(bodyParser.json())
 
 // '/topics' route
 app.use('/topics', topics)
+
+// '/users' route
+app.use('/users', users)
 
 // connect to the database
 connect()
