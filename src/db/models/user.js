@@ -6,14 +6,6 @@ const UserSchema = mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		given_name: {
-			type: String,
-			required: true,
-		},
-		family_name: {
-			type: String,
-			required: true,
-		},
 		sub: {
 			type: String,
 			required: true,
