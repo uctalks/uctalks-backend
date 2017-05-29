@@ -18,6 +18,9 @@ const TopicSchema = mongoose.Schema(
 			type: String,
 			required: true,
 		}],
+		speakerId: {
+			type: String,
+		},
 	},
 	{
 		strict: 'throw', // throw error, if field is not specified in the schema
