@@ -14,6 +14,10 @@ const TopicSchema = mongoose.Schema(
 		presentationDate: {
 			type: Date,
 		},
+		presented: {
+			type: Boolean,
+			default: false,
+		},
 		usersLikedIds: [{
 			type: String,
 			required: true,
