@@ -1,4 +1,5 @@
 import Topic from '../models/topic'
+import User from '../models/user'
 
 
 /**
@@ -43,15 +44,22 @@ export const updateTopicById = (id, updatedTopicProps) => Topic.findByIdAndUpdat
  * @returns {Promise} to update a topic's likes
  */
 export const updateTopicLikes = (topic, liked, userId) => {
+	let dbOperator = '$push' // or '$pull' if user dislikes the topic
+
 	if (liked) {
 		topic.likes++
 		topic.usersLikedIds.push(userId)
 	} else {
 		topic.likes--
 		topic.usersLikedIds = topic.usersLikedIds.filter(userLikedId => userLikedId !== userId)
+		dbOperator = '$pull'
 	}
 
-	return topic.save()
+	return Promise.all([
+		topic.save(), // save updated topic
+		// add topic's id to user's likedTopicsIds:
+		User.findByIdAndUpdate(userId, { [dbOperator]: { likedTopicsIds: topic._id } }),
+	]).then(results => results[0]) // return only updated topic
 }
 
 
