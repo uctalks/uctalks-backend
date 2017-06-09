@@ -1,4 +1,7 @@
 import mongoose from 'mongoose'
+import addUrlSchemaType from '../utils/url-schema-type.db'
+
+addUrlSchemaType(mongoose)
 
 const TopicSchema = mongoose.Schema(
 	{
@@ -25,6 +28,13 @@ const TopicSchema = mongoose.Schema(
 		speakerId: {
 			type: String,
 		},
+		linkToSlides: {
+			type: mongoose.Schema.Types.Url,
+		},
+		usefulLinks: [{
+            description: { type: String, required: true },
+			link: { type: mongoose.Schema.Types.Url, required: true, unique: true },
+		}],
 	},
 	{
 		strict: 'throw', // throw error, if field is not specified in the schema
