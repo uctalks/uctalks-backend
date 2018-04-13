@@ -1,11 +1,9 @@
 import mongoose from 'mongoose'
 
-// const dbUrl = 'mongodb://127.0.0.1:27017/local'
-const dbUrl = 'mongodb://uctalks:uctalks@ds157799.mlab.com:57799/heroku_x17nwlbv'
+const dbUrl = process.ENV.MONGODB_URI
 
 // use native promises
 mongoose.Promise = global.Promise
-
 
 /**
  * @returns {Promise} to connect to the database
