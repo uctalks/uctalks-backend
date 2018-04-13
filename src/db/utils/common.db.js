@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const dbUrl = process.ENV.MONGODB_URI
+const dbUrl = process.env.MONGODB_URI
 
 // use native promises
 mongoose.Promise = global.Promise
