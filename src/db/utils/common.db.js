@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const dbUrl = process.env.NODE_ENV = 'dev'
+const dbUrl = process.env.NODE_ENV === 'dev'
 	? 'mongodb://heroku_vdldqcgs:4a7fhq7hblitjuueflij6a7nlo@ds247047.mlab.com:47047/heroku_vdldqcgs'
 	: process.env.MONGODB_URI
 
