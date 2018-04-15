@@ -4,6 +4,7 @@ import bodyParser from 'body-parser'
 import topics from './routes/topics'
 import users from './routes/users'
 import { connect } from './db/utils/common.db'
+import { jwtCheck } from './auth'
 
 const 
 	app = express(), // create server
@@ -17,6 +18,9 @@ app.use(cors())
 
 // parse json during request/response
 app.use(bodyParser.json())
+
+// accept only authorized requests
+app.use(jwtCheck)
 
 // '/topics' route
 app.use('/topics', topics)
