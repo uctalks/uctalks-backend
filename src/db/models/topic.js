@@ -32,8 +32,8 @@ const TopicSchema = mongoose.Schema(
 			type: mongoose.Schema.Types.Url,
 		},
 		usefulLinks: [{
-            description: { type: String, required: true },
-			link: { type: mongoose.Schema.Types.Url, required: true, unique: true },
+		    description: { type: String, required: true },
+			link: { type: mongoose.Schema.Types.Url, required: true },
 		}],
 	},
 	{
