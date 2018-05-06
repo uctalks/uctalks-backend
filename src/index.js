@@ -20,7 +20,7 @@ app.use(cors())
 app.use(bodyParser.json())
 
 // accept only authorized requests
-// app.use(jwtCheck) // TODO enable back once client is done
+app.use(jwtCheck)
 
 // '/topics' route
 app.use('/topics', topics)

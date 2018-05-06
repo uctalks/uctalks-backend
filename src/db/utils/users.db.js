@@ -1,21 +1,12 @@
-import User from '../models/user'
-
-
-/**
- * @returns {Promise} to get all users
- */
-export const getUsers = () => User.find()
-
+import Users from '../models/Users'
 
 /**
  * @returns {Promise} to get all users
  */
-export const getUserById = sub => User.findOne({ sub })
+export const getUsers = () => Users.getUsers()
 
 
 /**
- * @param {String} sub (provided by Google, not Mongo) of the user to be updated
- * @param {Object} userProps to be inserted
- * @returns {Promise} to add/update a user
+ * @returns {Promise} to get user by id
  */
-export const addOrUpdateUserById = (sub, userProps) => User.findOneAndUpdate({ sub }, userProps, { new: true, upsert: true })
+export const getUserById = id => Users.getUserById(id)
