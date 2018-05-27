@@ -9,7 +9,7 @@ export const jwtCheck = jwt({
 		jwksRequestsPerMinute: 5,
 		jwksUri: `${auth0Url}.well-known/jwks.json`,
 	}),
-	audience: `https://${process.env.NODE_ENV === 'dev' ? 'uct-dev' : 'uctalks'}.herokuapp.com`,
+	audience: `https://${process.env.AUTH_AUDIENCE}.herokuapp.com`,
 	issuer: auth0Url,
 	algorithms: ['RS256'],
 })
