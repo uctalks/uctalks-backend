@@ -18,7 +18,7 @@
 		"express": "^4.15.3",
 		"express-jwt": "^5.3.1",
 		"jwks-rsa": "^1.2.1",
-		"mongoose": "5.4.19",
+		"mongoose": "5.7.5",
         "request": "latest",
 		"rimraf": "^2.6.1",
 		"url-regex": "^4.1.0"
