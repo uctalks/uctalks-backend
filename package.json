@@ -16,7 +16,7 @@
 		"body-parser": "^1.17.2",
 		"cors": "^2.8.3",
 		"express": "^4.15.3",
-		"express-jwt": "^5.3.1",
+		"express-jwt": "^6.0.0",
 		"jwks-rsa": "^1.2.1",
 		"mongoose": "5.7.5",
         "request": "latest",
