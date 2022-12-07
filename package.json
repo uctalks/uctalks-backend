@@ -15,7 +15,7 @@
 		"babel-preset-env": "^1.5.1",
 		"body-parser": "^1.17.2",
 		"cors": "^2.8.3",
-		"express": "^4.15.3",
+		"express": "^4.17.3",
 		"express-jwt": "^5.3.1",
 		"jwks-rsa": "^1.2.1",
 		"mongoose": "5.7.5",
